@@ -125,7 +125,7 @@ class ViewController: UIViewController {
         billAmountTextField.backgroundColor = Settings.sharedSettings.textColor
         billAmountTextField.textColor = Settings.sharedSettings.backgroundColor
         partyLabel.textColor = Settings.sharedSettings.textColor
-        
+        tipLabel.textColor = Settings.sharedSettings.textColor
     }
     
 }
