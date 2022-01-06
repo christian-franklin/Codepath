@@ -62,8 +62,7 @@ class ViewController: UIViewController {
             partySlider.isHidden = true
             pSize.isHidden = true
         }
-        
-        
+               
     }
     
     override func viewDidAppear(_ animated: Bool) {
