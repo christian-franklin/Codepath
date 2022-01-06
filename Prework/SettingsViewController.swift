@@ -27,6 +27,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyButton: UISwitch!
     
+    
      override func viewDidLoad() {
          super.viewDidLoad()
          // Do any additional setup after loading the view.
