@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 
-class RestaurantsViewController: UIViewController {
+class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // ––––– TODO: Add storyboard Items (i.e. tableView + Cell + configurations for Cell + cell outlets)
     // ––––– TODO: Next, place TableView outlet here
@@ -23,7 +23,9 @@ class RestaurantsViewController: UIViewController {
     // ––––– TODO: Add tableView datasource + delegate
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getAPIData()
+        tableView.delegate = self
+        tableView.dataSource = self
 
     }
     
@@ -34,8 +36,8 @@ class RestaurantsViewController: UIViewController {
             (restaurants) in guard let restaurants = restaurants else {
                 return
             }
-            print(restaurants)
-            self.restaurants = restaurants
+            self.restaurantsArray = restaurants
+            self.tableView.reloadData() // reload data!
         }
     }
 
@@ -43,4 +45,23 @@ class RestaurantsViewController: UIViewController {
 
 // ––––– TODO: Create tableView Extension and TableView Functionality
 
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return restaurantArray.count
+}
 
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    // Create Restaurant Cell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantCell") as! RestaurantCell
+    
+    let restaurant = restaurantsArray[indexPath.row]
+    
+    //Set Label to restaurant name for each cell
+    cell.label.text = restaurant["name"] as? String ?? ""
+    
+    //Set Image of restaurant
+    if let imageUrlString = restaurant["image_url"] as? String {
+        let imageUrl = URL(string: imageUrlString)
+        cell.restaurantImage.af.setImage(withURL: imageUrl!)
+    }
+    return cell
+}
