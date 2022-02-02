@@ -16,6 +16,7 @@ class Settings {
     var backgroundColor = UIColor.white
     var textColor = UIColor.black
     var shouldHide = true
+    var tipPercentage = [0.15, 0.18, 0.20]
 }
 
 class SettingsViewController: UIViewController {
@@ -26,12 +27,18 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var darkmodeLabel: UILabel!
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partyButton: UISwitch!
+    @IBOutlet weak var default1label: UILabel!
+    @IBOutlet weak var default2label: UILabel!
+    @IBOutlet weak var default3label: UILabel!
+    
+
     
     
      override func viewDidLoad() {
          super.viewDidLoad()
          // Do any additional setup after loading the view.
          self.title = "Settings"
+         
          if defaults.bool(forKey: "switchDark") {
              Settings.sharedSettings.backgroundColor = UIColor.black
              Settings.sharedSettings.textColor = UIColor.white
@@ -39,10 +46,14 @@ class SettingsViewController: UIViewController {
              Settings.sharedSettings.backgroundColor = UIColor.white
              Settings.sharedSettings.textColor = UIColor.black
          }
+         
          self.view.backgroundColor = Settings.sharedSettings.backgroundColor
          defaultLabel.textColor = Settings.sharedSettings.textColor
          darkmodeLabel.textColor = Settings.sharedSettings.textColor
          partyLabel.textColor = Settings.sharedSettings.textColor
+         default1label.textColor = Settings.sharedSettings.textColor
+     //    default2label.textColor = Settings.sharedSettings.textColor
+     //    default3label.textColor = Settings.sharedSettings.textColor
          
          if defaults.bool(forKey: "switchDark") {
              switchButton.isOn = true
@@ -50,7 +61,7 @@ class SettingsViewController: UIViewController {
              switchButton.isOn = false
          }
          
-         if Settings.sharedSettings.shouldHide == false {
+         if defaults.bool(forKey: "switchParty") {
              partyButton.isOn = true
          } else {
              partyButton.isOn = false
@@ -61,7 +72,7 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         defaulttipsetting.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
-    
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +81,9 @@ class SettingsViewController: UIViewController {
         defaultLabel.textColor = Settings.sharedSettings.textColor
         darkmodeLabel.textColor = Settings.sharedSettings.textColor
         partyLabel.textColor = Settings.sharedSettings.textColor
+        default1label.textColor = Settings.sharedSettings.textColor
+    //    default2label.textColor = Settings.sharedSettings.textColor
+    //    default3label.textColor = Settings.sharedSettings.textColor
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,7 +95,6 @@ class SettingsViewController: UIViewController {
     func setDefaults() {
         let tipPercentages = [0, 1, 2]
         defaults.set(tipPercentages[defaulttipsetting.selectedSegmentIndex], forKey: "defaultTip")
-
     }
     
     @IBAction func Darkmode(_ sender: Any) {
@@ -98,6 +111,10 @@ class SettingsViewController: UIViewController {
         defaultLabel.textColor = Settings.sharedSettings.textColor
         darkmodeLabel.textColor = Settings.sharedSettings.textColor
         partyLabel.textColor = Settings.sharedSettings.textColor
+        default1label.textColor = Settings.sharedSettings.textColor
+    //    default2label.textColor = Settings.sharedSettings.textColor
+    //    default3label.textColor = Settings.sharedSettings.textColor
+    
     }
     
     @IBAction func PartyOnOff(_ sender: Any) {
@@ -110,6 +127,12 @@ class SettingsViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func Default1Amt(_ sender: Any) {
+        let default0 = Double(default1label.text!) ?? 0
+        Settings.sharedSettings.tipPercentage[0] = default0
+    }
+    
     
     
     /*

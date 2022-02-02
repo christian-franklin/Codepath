@@ -9,7 +9,6 @@ import UIKit
 
 private let defaults = UserDefaults.standard
 
-
 class ViewController: UIViewController {
 
     
@@ -20,7 +19,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var billLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalName: UILabel!
-    @IBOutlet weak var calcButton: UIButton!
     @IBOutlet weak var partyLabel: UILabel!
     @IBOutlet weak var partySlider: UISlider!
     @IBOutlet weak var pSize: UILabel!
@@ -30,7 +28,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Tip Calculator"
-                                     
+                                 
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,7 +36,7 @@ class ViewController: UIViewController {
         // This is a good place to retrieve the default tip percentage from UserDefaults
         // and use it to update the tip amount
         tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
-        
+                
         if Double(billAmountTextField.text!) != 0.00 {
             calculateTip(super.viewWillAppear)
         }
@@ -53,7 +51,7 @@ class ViewController: UIViewController {
         
         Darkmode()
         
-        if Settings.sharedSettings.shouldHide == false {
+        if defaults.bool(forKey: "switchParty") {
             partyLabel.isHidden = false
             partySlider.isHidden = false
             pSize.isHidden = false
@@ -75,8 +73,8 @@ class ViewController: UIViewController {
         // Get bill amount from text field input
         let bill = Double(billAmountTextField.text!) ?? 0
         // Get Total tip by multiplying tip * tipPercentage
-        let tipPercentages = [0.15, 0.18, 0.2]
-        if Settings.sharedSettings.shouldHide == false {
+        let tipPercentages = [Settings.sharedSettings.tipPercentage[0], 0.18, 0.2]
+        if defaults.bool(forKey: "switchParty") {
             let sliderVal = Double(Int(partySlider.value))
             let tip = (bill / sliderVal) *
             tipPercentages[tipControl.selectedSegmentIndex]
@@ -107,13 +105,6 @@ class ViewController: UIViewController {
         calculateTip(sender)
     }
     
-    @IBAction func ChangeButtonColor(_ sender: Any) {
-        calcButton.backgroundColor = UIColor.systemGray
-        }
-        
-    @IBAction func ChangeBackButtonColor(_ sender: Any) {
-        calcButton.backgroundColor = UIColor.systemOrange
-        }
     
     func Darkmode() {
         self.view.backgroundColor = Settings.sharedSettings.backgroundColor
@@ -121,11 +112,13 @@ class ViewController: UIViewController {
         totalLabel.textColor = Settings.sharedSettings.textColor
         billLabel.textColor = Settings.sharedSettings.textColor
         totalName.textColor = Settings.sharedSettings.textColor
-        calcButton.tintColor = Settings.sharedSettings.textColor
-        billAmountTextField.backgroundColor = Settings.sharedSettings.textColor
-        billAmountTextField.textColor = Settings.sharedSettings.backgroundColor
+        //billAmountTextField.backgroundColor = Settings.sharedSettings.textColor
+        //billAmountTextField.textColor = Settings.sharedSettings.backgroundColor
         partyLabel.textColor = Settings.sharedSettings.textColor
         tipLabel.textColor = Settings.sharedSettings.textColor
+        pSize.textColor = Settings.sharedSettings.textColor
+        
+        
     }
     
 }
