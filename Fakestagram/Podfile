@@ -8,6 +8,7 @@ target 'Fakestagram' do
   # Pods for Fakestagram
   pod 'Parse'
   pod 'AlamofireImage'
+  pod 'MessageInputBar'
 
   target 'FakestagramTests' do
     inherit! :search_paths
